@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Manage IPNS names")]
-    [Subcommand("publish", typeof(NamePublishCommand))]
-    [Subcommand("resolve", typeof(NameResolveCommand))]
+    [Command("name", Description = "Manage IPNS names")]
+    [Subcommand(typeof(NamePublishCommand))]
+    [Subcommand(typeof(NameResolveCommand))]
     class NameCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -21,7 +21,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Resolve a name")]
+    [Command("resolve", Description = "Resolve a name")]
     class NameResolveCommand : CommandBase
     {
         NameCommand Parent { get; set; }
@@ -46,7 +46,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Publish a name")]
+    [Command("publish", Description = "Publish a name")]
     class NamePublishCommand : CommandBase
     {
         NameCommand Parent { get; set; }

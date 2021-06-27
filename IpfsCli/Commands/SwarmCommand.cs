@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Manage connections to the p2p network")]
-    [Subcommand("connect", typeof(SwarmConnectCommand))]
-    [Subcommand("disconnect", typeof(SwarmDisconnectCommand))]
-    [Subcommand("peers", typeof(SwarmPeersCommand))]
-    [Subcommand("addrs", typeof(SwarmAddrsCommand))]
+    [Command("swarm", Description = "Manage connections to the p2p network")]
+    [Subcommand(typeof(SwarmConnectCommand))]
+    [Subcommand(typeof(SwarmDisconnectCommand))]
+    [Subcommand(typeof(SwarmPeersCommand))]
+    [Subcommand(typeof(SwarmAddrsCommand))]
     class SwarmCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -24,7 +24,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Connect to a peer")]
+    [Command("connect", Description = "Connect to a peer")]
     class SwarmConnectCommand : CommandBase
     {
         [Argument(0, "addr", "A multiaddress to the peer")]
@@ -41,7 +41,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Disconnect from a peer")]
+    [Command("disconnect", Description = "Disconnect from a peer")]
     class SwarmDisconnectCommand : CommandBase
     {
         [Argument(0, "addr", "A multiaddress to the peer")]
@@ -58,7 +58,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "List of connected peers")]
+    [Command("peers", Description = "List of connected peers")]
     class SwarmPeersCommand : CommandBase
     {
         public SwarmCommand Parent { get; set; }
@@ -78,7 +78,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "List addresses of known peers")]
+    [Command("addrs", Description = "List addresses of known peers")]
     class SwarmAddrsCommand : CommandBase
     {
         public SwarmCommand Parent { get; set; }

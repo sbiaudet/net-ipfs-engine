@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using Ipfs.Engine.Cryptography;
@@ -12,7 +13,7 @@ namespace Ipfs.Engine
     ///   Configuration options for the <see cref="IpfsEngine"/>.
     /// </summary>
     /// <seealso cref="IpfsEngine.Options"/>
-    public class IpfsEngineOptions
+    public class IpfsEngineOptions : IDisposable
     {
         /// <summary>
         ///   Repository options.
@@ -46,5 +47,42 @@ namespace Ipfs.Engine
         ///   Swarm (network) options.
         /// </summary>
         public SwarmOptions Swarm { get; set; } = new SwarmOptions();
+
+        /// <summary>
+        ///   The password used to access the keychain.
+        /// </summary>
+        public SecureString Passphrase { get; set; }
+
+        #region IDisposable Support
+        bool disposedValue = false; // To detect redundant calls
+
+        /// <summary>
+        ///  Releases the unmanaged and optionally managed resources.
+        /// </summary>
+        /// <param name="disposing">
+        ///   <b>true</b> to release both managed and unmanaged resources; <b>false</b> 
+        ///   to release only unmanaged resources.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                disposedValue = true;
+
+                if (disposing)
+                {
+                    Passphrase?.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }

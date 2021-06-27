@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Query the DHT for values or peers")]
-    [Subcommand("findpeer", typeof(DhtFindPeerCommand))]
-    [Subcommand("findprovs", typeof(DhtFindProvidersCommand))]
+    [Command("dht", Description = "Query the DHT for values or peers")]
+    [Subcommand(typeof(DhtFindPeerCommand))]
+    [Subcommand(typeof(DhtFindProvidersCommand))]
     class DhtCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -22,7 +22,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Find the multiaddresses associated with the peer ID")]
+    [Command("findpeer", Description = "Find the multiaddresses associated with the peer ID")]
     class DhtFindPeerCommand : CommandBase
     {
         DhtCommand Parent { get; set; }
@@ -46,7 +46,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Find peers that can provide a specific value, given a key")]
+    [Command("findprovs", Description = "Find peers that can provide a specific value, given a key")]
     class DhtFindProvidersCommand : CommandBase
     {
         DhtCommand Parent { get; set; }

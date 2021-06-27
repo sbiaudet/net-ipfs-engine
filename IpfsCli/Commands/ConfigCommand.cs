@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Manage the configuration")]
-    [Subcommand("show", typeof(ConfigShowCommand))]
-    [Subcommand("replace", typeof(ConfigReplaceCommand))]
+    [Command("config", Description = "Manage the configuration")]
+    [Subcommand(typeof(ConfigShowCommand))]
+    [Subcommand(typeof(ConfigReplaceCommand))]
     class ConfigCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -53,7 +53,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Show the config file contents")]
+    [Command("show", Description = "Show the config file contents")]
     class ConfigShowCommand : CommandBase
     {
         ConfigCommand Parent { get; set; }
@@ -67,7 +67,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Replace the config file")]
+    [Command("replace", Description = "Replace the config file")]
     class ConfigReplaceCommand : CommandBase
     {
         [Argument(0, "path", "The path to the config file")]

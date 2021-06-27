@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "List links")]
+    [Command("ls", Description = "List links")]
     class LsCommand : CommandBase
     {
         [Argument(0, "ipfs-path", "The path to an IPFS object")]

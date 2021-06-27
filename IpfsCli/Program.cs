@@ -25,33 +25,33 @@ namespace Ipfs.Cli
 {
     [Command("csipfs")]
     [VersionOptionFromMember("--version", MemberName = nameof(GetVersion))]
-    [Subcommand("init", typeof(InitCommand))]
-    [Subcommand("add", typeof(AddCommand))]
-    [Subcommand("cat", typeof(CatCommand))]
-    [Subcommand("get", typeof(GetCommand))]
-    [Subcommand("ls", typeof(LsCommand))]
-    [Subcommand("refs", typeof(RefsCommand))]
-    [Subcommand("id", typeof(IdCommand))]
-    [Subcommand("object", typeof(ObjectCommand))]
-    [Subcommand("block", typeof(BlockCommand))]
-    [Subcommand("files", typeof(FilesCommand))]
-    [Subcommand("daemon", typeof(DaemonCommand))]
-    [Subcommand("resolve", typeof(ResolveCommand))]
-    [Subcommand("name", typeof(NameCommand))]
-    [Subcommand("key", typeof(KeyCommand))]
-    [Subcommand("dns", typeof(DnsCommand))]
-    [Subcommand("pin", typeof(PinCommand))]
-    [Subcommand("pubsub", typeof(PubsubCommand))]
-    [Subcommand("bootstrap", typeof(BootstrapCommand))]
-    [Subcommand("swarm", typeof(SwarmCommand))]
-    [Subcommand("dht", typeof(DhtCommand))]
-    [Subcommand("config", typeof(ConfigCommand))]
-    [Subcommand("version", typeof(VersionCommand))]
-    [Subcommand("shutdown", typeof(ShutdownCommand))]
-    [Subcommand("update", typeof(UpdateCommand))]
-    [Subcommand("bitswap", typeof(BitswapCommand))]
-    [Subcommand("stats", typeof(StatsCommand))]
-    [Subcommand("repo", typeof(RepoCommand))]
+    [Subcommand(typeof(InitCommand))]
+    [Subcommand(typeof(AddCommand))]
+    [Subcommand(typeof(CatCommand))]
+    [Subcommand(typeof(GetCommand))]
+    [Subcommand(typeof(LsCommand))]
+    [Subcommand(typeof(RefsCommand))]
+    [Subcommand(typeof(IdCommand))]
+    [Subcommand(typeof(ObjectCommand))]
+    [Subcommand(typeof(BlockCommand))]
+    [Subcommand(typeof(FilesCommand))]
+    [Subcommand(typeof(DaemonCommand))]
+    [Subcommand(typeof(ResolveCommand))]
+    [Subcommand(typeof(NameCommand))]
+    [Subcommand(typeof(KeyCommand))]
+    [Subcommand(typeof(DnsCommand))]
+    [Subcommand(typeof(PinCommand))]
+    [Subcommand(typeof(PubsubCommand))]
+    [Subcommand(typeof(BootstrapCommand))]
+    [Subcommand(typeof(SwarmCommand))]
+    [Subcommand(typeof(DhtCommand))]
+    [Subcommand(typeof(ConfigCommand))]
+    [Subcommand(typeof(VersionCommand))]
+    [Subcommand(typeof(ShutdownCommand))]
+    [Subcommand(typeof(UpdateCommand))]
+    [Subcommand(typeof(BitswapCommand))]
+    [Subcommand(typeof(StatsCommand))]
+    [Subcommand(typeof(RepoCommand))]
     class Program : CommandBase
     {
         static bool debugging;
@@ -130,7 +130,7 @@ namespace Ipfs.Cli
                     {
                         // TODO: Add option --pass
                         string passphrase = "this is not a secure pass phrase";
-                        var engine = new IpfsEngine(passphrase.ToCharArray());
+                        var engine = IpfsEngine.Create(passphrase.ToCharArray());
                         engine.StartAsync().Wait();
                         coreApi = engine;
                     }

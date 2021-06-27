@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Publish/subscribe to messages on a given topic")]
-    [Subcommand("ls", typeof(PubsubListCommand))]
-    [Subcommand("peers", typeof(PubsubPeersCommand))]
-    [Subcommand("pub", typeof(PubsubPublishCommand))]
-    [Subcommand("sub", typeof(PubsubSubscribeCommand))]
+    [Command("pubsub", Description = "Publish/subscribe to messages on a given topic")]
+    [Subcommand(typeof(PubsubListCommand))]
+    [Subcommand(typeof(PubsubPeersCommand))]
+    [Subcommand(typeof(PubsubPublishCommand))]
+    [Subcommand(typeof(PubsubSubscribeCommand))]
     class PubsubCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -24,7 +24,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "List subscribed topics by name")]
+    [Command("ls", Description = "List subscribed topics by name")]
     class PubsubListCommand : CommandBase
     {
         PubsubCommand Parent { get; set; }
@@ -43,7 +43,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "List peers that are pubsubbing with")]
+    [Command("peers", Description = "List peers that are pubsubbing with")]
     class PubsubPeersCommand : CommandBase
     {
         [Argument(0, "topic", "The topic of interest")]
@@ -59,7 +59,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Publish a message on a topic")]
+    [Command("pub", Description = "Publish a message on a topic")]
     class PubsubPublishCommand : CommandBase
     {
         [Argument(0, "topic", "The topic of interest")]
@@ -79,7 +79,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Subscribe to messages on a topic")]
+    [Command("sub", Description = "Subscribe to messages on a topic")]
     class PubsubSubscribeCommand : CommandBase
     {
         [Argument(0, "topic", "The topic of interest")]

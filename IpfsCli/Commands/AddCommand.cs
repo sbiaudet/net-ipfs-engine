@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Add a file to IPFS")]
+    [Command("add", Description = "Add a file to IPFS")]
     class AddCommand : CommandBase
     {
         static AddFileOptions DefaultOptions = new AddFileOptions();

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Manage the mfs (Mutable File System) [WIP]")]
+    [Command("files", Description = "Manage the mfs (Mutable File System) [WIP]")]
     class FilesCommand : CommandBase // TODO
     {
     }

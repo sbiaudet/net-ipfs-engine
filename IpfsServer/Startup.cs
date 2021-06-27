@@ -7,8 +7,10 @@ using Ipfs.CoreApi;
 using Ipfs.Engine;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -33,7 +35,7 @@ namespace Ipfs.Server
             services.AddSingleton<ICoreApi>(Program.IpfsEngine);
             services.AddCors();
             services.AddMvc()
-                .AddJsonOptions(jo =>
+                .AddNewtonsoftJson(jo =>
                 {
                     jo.SerializerSettings.ContractResolver = new DefaultContractResolver()
                     {
@@ -45,7 +47,7 @@ namespace Ipfs.Server
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v0", new Info {
+                c.SwaggerDoc("v0", new OpenApiInfo {
                     Title = "IPFS HTTP API",
                     Description = "The API for interacting with IPFS nodes.",  
                     Version = "v0" });
@@ -57,7 +59,7 @@ namespace Ipfs.Server
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -67,6 +69,9 @@ namespace Ipfs.Server
             {
                 app.UseExceptionHandler("/Error");
             }
+
+            app.UseRouting();
+
             app.UseCors(c => c
                 .AllowAnyOrigin() // TODO: This is NOT SAFE
                 .AllowAnyHeader()
@@ -85,7 +90,11 @@ namespace Ipfs.Server
                 c.SwaggerEndpoint("/swagger/v0/swagger.json", "IPFS HTTP API");
             });
 
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

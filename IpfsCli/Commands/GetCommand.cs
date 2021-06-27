@@ -11,7 +11,7 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Download IPFS data")]
+    [Command("get", Description = "Download IPFS data")]
     class GetCommand : CommandBase
     {
         [Argument(0, "ipfs-path", "The path to the IPFS data")]

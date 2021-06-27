@@ -1,10 +1,13 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using Opt = Microsoft.Extensions.Options;
 
 namespace Ipfs.Engine
 {
@@ -20,8 +23,15 @@ namespace Ipfs.Engine
         static int nodeNumber;
 
         public TempNode()
-            : base("xyzzy".ToCharArray())
+            : base(Opt.Options.Create(new IpfsEngineOptions()))
         {
+            var passPhrase = new SecureString();
+            foreach (var c in "xyzzy")
+            {
+                passPhrase.AppendChar(c);
+            }
+            Options.Passphrase = passPhrase;
+
             Options.Repository.Folder = Path.Combine(Path.GetTempPath(), $"ipfs-{nodeNumber++}");
             Options.KeyChain.DefaultKeyType = "ed25519";
             Config.SetAsync(
@@ -30,6 +40,7 @@ namespace Ipfs.Engine
             ).Wait();
         }
 
+        //xyzzy
         /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {

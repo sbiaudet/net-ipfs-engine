@@ -20,6 +20,8 @@ using System.Collections.Concurrent;
 using System.Security;
 using PeerTalk.SecureCommunication;
 using PeerTalk.Cryptography;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Ipfs.Engine
 {
@@ -36,7 +38,7 @@ namespace Ipfs.Engine
         static ILog log = LogManager.GetLogger(typeof(IpfsEngine));
 
         KeyChain keyChain;
-        SecureString passphrase;
+        //SecureString passphrase;
         ConcurrentBag<Func<Task>> stopTasks = new ConcurrentBag<Func<Task>>();
 
         /// <summary>
@@ -46,19 +48,35 @@ namespace Ipfs.Engine
         /// <remarks>
         ///   Th passphrase must be in the IPFS_PASS environment variable.
         /// </remarks>
-        public IpfsEngine()
+        public IpfsEngine(IOptions<IpfsEngineOptions> options)
         {
-            var s = Environment.GetEnvironmentVariable("IPFS_PASS");
-            if (s == null)
-                throw new Exception("The IPFS_PASS environement variable is missing.");
-
-            passphrase = new SecureString();
-            foreach (var c in s)
-            {
-                this.passphrase.AppendChar(c);
-            }
+            this.Options =  options.Value ?? new IpfsEngineOptions();
             Init();
         }
+        
+        /// <summary>
+        ///   Creates a new instance of the <see cref="IpfsEngine"/> class
+        ///   with the IPFS_PASS environment variable.
+        /// </summary>
+        /// <remarks>
+        ///   Th passphrase must be in the IPFS_PASS environment variable.
+        /// </remarks>
+        /// 
+        public static IpfsEngine Create()
+            => Create(options =>
+            {
+                var s = Environment.GetEnvironmentVariable("IPFS_PASS");
+                if (s == null)
+                    throw new Exception("The IPFS_PASS environement variable is missing.");
+
+                var passphrase = new SecureString();
+                foreach (var c in s)
+                {
+                    passphrase.AppendChar(c);
+                }
+
+                options.Passphrase = passphrase;
+            });
 
         /// <summary>
         ///   Creates a new instance of the <see cref="IpfsEngine"/> class
@@ -71,15 +89,17 @@ namespace Ipfs.Engine
         ///   A <b>SecureString</b> copy of the passphrase is made so that the array can be 
         ///   zeroed out after the call.
         /// </remarks>
-        public IpfsEngine(char[] passphrase)
-        {
-            this.passphrase = new SecureString();
-            foreach (var c in passphrase)
+        public static IpfsEngine Create(char[] passphrase)
+            => Create(options =>
             {
-                this.passphrase.AppendChar(c);
-            }
-            Init();
-        }
+                var passPhrase = new SecureString();
+                foreach (var c in passphrase)
+                {
+                    passPhrase.AppendChar(c);
+                }
+
+                options.Passphrase = passPhrase;
+            });
 
         /// <summary>
         ///   Creates a new instance of the <see cref="IpfsEngine"/> class
@@ -91,14 +111,31 @@ namespace Ipfs.Engine
         /// <remarks>
         ///  A copy of the <paramref name="passphrase"/> is made.
         /// </remarks>
-        public IpfsEngine(SecureString passphrase)
+        public static IpfsEngine Create(SecureString passphrase)
+            => Create(options =>
+            {
+                options.Passphrase = passphrase.Copy();
+            });
+
+        /// <summary>
+        ///   Creates a new instance of the <see cref="IpfsEngine"/> class
+        ///   with the specified passphrase.
+        /// </summary>
+        /// <param name="configure">
+        ///   The password used to access the keychain.
+        /// </param>
+        /// <remarks>
+        /// </remarks>
+        public static IpfsEngine Create(Action<IpfsEngineOptions> configure)
         {
-            this.passphrase = passphrase.Copy();
-            Init();
+            ServiceCollection services = new ServiceCollection();
+            services.AddIpfs(configure);
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            return (IpfsEngine)serviceProvider.GetRequiredService<ICoreApi>();
         }
 
         void Init()
-        { 
+        {
             // Init the core api inteface.
             Bitswap = new BitswapApi(this);
             Block = new BlockApi(this);
@@ -302,11 +339,11 @@ namespace Ipfs.Engine
                         {
                             Options = Options.KeyChain
                         };
-                     }
+                    }
                 }
 
-                await keyChain.SetPassphraseAsync(passphrase, cancel).ConfigureAwait(false);
-                
+                await keyChain.SetPassphraseAsync(Options.Passphrase, cancel).ConfigureAwait(false);
+
                 // Maybe create "self" key, this is the local peer's id.
                 var self = await keyChain.FindKeyByNameAsync("self", cancel).ConfigureAwait(false);
                 if (self == null)
@@ -341,7 +378,7 @@ namespace Ipfs.Engine
         /// <exception cref="ArgumentException">
         ///   The <paramref name="path"/> cannot be resolved.
         /// </exception>
-        public async Task<Cid> ResolveIpfsPathToCidAsync (string path, CancellationToken cancel = default(CancellationToken))
+        public async Task<Cid> ResolveIpfsPathToCidAsync(string path, CancellationToken cancel = default(CancellationToken))
         {
             var r = await Generic.ResolveAsync(path, true, cancel).ConfigureAwait(false);
             return Cid.Decode(r.Remove(0, 6));  // strip '/ipfs/'.
@@ -530,7 +567,7 @@ namespace Ipfs.Engine
                     stopTasks.Add(async () => await mdns.StopAsync().ConfigureAwait(false));
                     await mdns.StartAsync().ConfigureAwait(false);
                 },
-                async () => 
+                async () =>
                 {
                     if (Options.Discovery.DisableRandomWalk)
                         return;
@@ -638,7 +675,7 @@ namespace Ipfs.Engine
         /// </summary>
         public AsyncLazy<PeerTalk.Protocols.Ping1> PingService { get; private set; }
 
-        #pragma warning disable VSTHRD100 // Avoid async void methods
+#pragma warning disable VSTHRD100 // Avoid async void methods
         /// <summary>
         ///   Fired when a peer is discovered.
         /// </summary>
@@ -680,7 +717,7 @@ namespace Ipfs.Engine
 
                 if (disposing)
                 {
-                    passphrase?.Dispose();
+                    Options?.Dispose();
                     Stop();
                 }
             }

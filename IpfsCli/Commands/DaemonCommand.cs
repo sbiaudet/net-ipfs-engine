@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Start a long running IPFS deamon")]
+    [Command("daemon", Description = "Start a long running IPFS deamon")]
     class DaemonCommand : CommandBase // TODO
     {
         Program Parent { get; set; }

@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Manage private keys")]
-    [Subcommand("list", typeof(KeyListCommand))]
-    [Subcommand("rm", typeof(KeyRemoveCommand))]
-    [Subcommand("gen", typeof(KeyCreateCommand))]
-    [Subcommand("rename", typeof(KeyRenameCommand))]
-    [Subcommand("export", typeof(KeyExportCommand))]
-    [Subcommand("import", typeof(KeyImportCommand))]
+    [Command("key", Description = "Manage private keys")]
+    [Subcommand(typeof(KeyListCommand))]
+    [Subcommand(typeof(KeyRemoveCommand))]
+    [Subcommand(typeof(KeyCreateCommand))]
+    [Subcommand(typeof(KeyRenameCommand))]
+    [Subcommand(typeof(KeyExportCommand))]
+    [Subcommand(typeof(KeyImportCommand))]
     class KeyCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -26,7 +26,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "List the keys")]
+    [Command("list", Description = "List the keys")]
     class KeyListCommand : CommandBase
     {
         KeyCommand Parent { get; set; }
@@ -45,7 +45,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Remove the key")]
+    [Command("rm", Description = "Remove the key")]
     class KeyRemoveCommand : CommandBase
     {
         [Argument(0, "name", "The name of the key")]
@@ -71,7 +71,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Rename the key")]
+    [Command("rename", Description = "Rename the key")]
     class KeyRenameCommand : CommandBase
     {
         [Argument(0, "name", "The name of the key")]
@@ -101,7 +101,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Create a key")]
+    [Command("gen", Description = "Create a key")]
     class KeyCreateCommand : CommandBase
     {
         [Argument(0, "name", "The name of the key")]
@@ -127,7 +127,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Export the key to a PKCS #8 PEM file")]
+    [Command("export", Description = "Export the key to a PKCS #8 PEM file")]
     class KeyExportCommand : CommandBase
     {
         [Argument(0, "name", "The name of the key")]
@@ -164,7 +164,7 @@ namespace Ipfs.Cli
 
     }
 
-    [Command(Description = "Import the key from a PKCS #8 PEM file")]
+    [Command("import", Description = "Import the key from a PKCS #8 PEM file")]
     class KeyImportCommand : CommandBase
     {
         [Argument(0, "name", "The name of the key")]

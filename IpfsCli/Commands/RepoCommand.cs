@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Manage the IPFS repository")]
-    [Subcommand("gc", typeof(RepoGCCommand))]
-    [Subcommand("migrate", typeof(RepoMigrateCommand))]
-    [Subcommand("stat", typeof(RepoStatCommand))]
-    [Subcommand("verify", typeof(RepoVerifyCommand))]
-    [Subcommand("version", typeof(RepoVersionCommand))]
+    [Command("repo", Description = "Manage the IPFS repository")]
+    [Subcommand(typeof(RepoGCCommand))]
+    [Subcommand(typeof(RepoMigrateCommand))]
+    [Subcommand(typeof(RepoStatCommand))]
+    [Subcommand(typeof(RepoVerifyCommand))]
+    [Subcommand(typeof(RepoVersionCommand))]
     class RepoCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -25,7 +25,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Perform a garbage collection sweep on the repo")]
+    [Command("gc", Description = "Perform a garbage collection sweep on the repo")]
     class RepoGCCommand : CommandBase
     {
         RepoCommand Parent { get; set; }
@@ -39,7 +39,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Verify all blocks in repo are not corrupted")]
+    [Command("verify", Description = "Verify all blocks in repo are not corrupted")]
     class RepoVerifyCommand : CommandBase
     {
         RepoCommand Parent { get; set; }
@@ -53,7 +53,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Repository information")]
+    [Command("stat", Description = "Repository information")]
     class RepoStatCommand : CommandBase
     {
         RepoCommand Parent { get; set; }
@@ -67,7 +67,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Repository version")]
+    [Command("version", Description = "Repository version")]
     class RepoVersionCommand : CommandBase
     {
         RepoCommand Parent { get; set; }
@@ -81,7 +81,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Migrate to the version")]
+    [Command("migrate", Description = "Migrate to the version")]
     class RepoMigrateCommand : CommandBase
     {
         RepoCommand Parent { get; set; }
@@ -94,7 +94,7 @@ namespace Ipfs.Cli
         {
             // TODO: Add option --pass
             string passphrase = "this is not a secure pass phrase";
-            var ipfs = new IpfsEngine(passphrase.ToCharArray());
+            var ipfs = IpfsEngine.Create(passphrase.ToCharArray());
 
             await ipfs.MigrationManager.MirgrateToVersionAsync(Version);
             return 0;

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Manage data in local storage [WIP]")]
+    [Command("pin", Description = "Manage data in local storage [WIP]")]
     class PinCommand : CommandBase // TODO
     {
     }

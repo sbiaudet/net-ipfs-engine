@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "List hashes of links [WIP]")]
+    [Command("refs", Description = "List hashes of links [WIP]")]
     class RefsCommand : CommandBase
     {
     }

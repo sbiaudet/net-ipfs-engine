@@ -1,4 +1,5 @@
 ﻿using Ipfs.Engine.Cryptography;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using PeerTalk.Cryptography;
@@ -17,7 +18,7 @@ namespace Ipfs.Engine
         [TestMethod]
         public void Can_Create()
         {
-            var ipfs = new IpfsEngine("this is not a secure pass phrase".ToCharArray());
+            var ipfs = IpfsEngine.Create("this is not a secure pass phrase".ToCharArray());
             Assert.IsNotNull(ipfs);
         }
 
@@ -34,13 +35,13 @@ namespace Ipfs.Engine
         public async Task SecureString_Passphrase()
         { 
             var secret = "this is not a secure pass phrase";
-            var ipfs = new IpfsEngine(secret.ToCharArray());
+            var ipfs = IpfsEngine.Create(secret.ToCharArray());
             ipfs.Options = TestFixture.Ipfs.Options;
             await ipfs.KeyChainAsync();
 
             var passphrase = new SecureString();
             foreach (var c in secret) passphrase.AppendChar(c);
-            ipfs = new IpfsEngine(passphrase);
+            ipfs = IpfsEngine.Create(passphrase);
             ipfs.Options = TestFixture.Ipfs.Options;
             await ipfs.KeyChainAsync();
         }
@@ -49,14 +50,14 @@ namespace Ipfs.Engine
         public async Task IpfsPass_Passphrase()
         {
             var secret = "this is not a secure pass phrase";
-            var ipfs = new IpfsEngine(secret.ToCharArray());
+            var ipfs = IpfsEngine.Create(secret.ToCharArray());
             ipfs.Options = TestFixture.Ipfs.Options;
             await ipfs.KeyChainAsync();
 
             Environment.SetEnvironmentVariable("IPFS_PASS", secret);
             try
             {
-                ipfs = new IpfsEngine();
+                ipfs = IpfsEngine.Create();
                 ipfs.Options = TestFixture.Ipfs.Options;
                 await ipfs.KeyChainAsync();
             }
@@ -72,10 +73,10 @@ namespace Ipfs.Engine
             var ipfs1 = TestFixture.Ipfs;
             await ipfs1.KeyChainAsync();
 
-            var ipfs2 = new IpfsEngine("the wrong pass phrase".ToCharArray())
-            {
-                Options = ipfs1.Options
-            };
+            var ipfs2 = IpfsEngine.Create("the wrong pass phrase".ToCharArray());
+            //{
+            //    Options = ipfs1.Options;
+            //};
             ExceptionAssert.Throws<UnauthorizedAccessException>(() =>
             {
                 var _ = ipfs2.KeyChainAsync().Result;
@@ -86,7 +87,7 @@ namespace Ipfs.Engine
         [ExpectedException(typeof(Exception))]
         public void IpfsPass_Missing()
         {
-            var _ = new IpfsEngine();
+            var _ = IpfsEngine.Create();
         }
 
         [TestMethod]

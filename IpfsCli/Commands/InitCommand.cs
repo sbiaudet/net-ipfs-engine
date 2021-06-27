@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Initialize ipfs local configuration [WIP]")]
+    [Command("init", Description = "Initialize ipfs local configuration [WIP]")]
     class InitCommand : CommandBase
     {
     }

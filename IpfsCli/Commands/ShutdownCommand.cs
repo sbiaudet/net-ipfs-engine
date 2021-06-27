@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Stop the IPFS deamon")]
+    [Command("shutdown", Description = "Stop the IPFS deamon")]
     class ShutdownCommand : CommandBase
     {
         Program Parent { get; set; }

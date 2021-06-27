@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Manage bootstrap peers")]
-    [Subcommand("list", typeof(BootstrapListCommand))]
-    [Subcommand("rm", typeof(BootstrapRemoveCommand))]
-    [Subcommand("add", typeof(BootstrapAddCommand))]
+    [Command("bootstrap", Description = "Manage bootstrap peers")]
+    [Subcommand(typeof(BootstrapListCommand))]
+    [Subcommand(typeof(BootstrapRemoveCommand))]
+    [Subcommand(typeof(BootstrapAddCommand))]
     class BootstrapCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -22,7 +22,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "List the bootstrap peers")]
+    [Command("list", Description = "List the bootstrap peers")]
     class BootstrapListCommand : CommandBase
     {
         BootstrapCommand Parent { get; set; }
@@ -41,8 +41,8 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Add the bootstrap peer")]
-    [Subcommand("default", typeof(BootstrapAddDefaultCommand))]
+    [Command("add", Description = "Add the bootstrap peer")]
+    [Subcommand(typeof(BootstrapAddDefaultCommand))]
     class BootstrapAddCommand : CommandBase
     {
         [Argument(0, "addr", "A multiaddress to the peer")]
@@ -58,7 +58,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Add the default bootstrap peers")]
+    [Command("default", Description = "Add the default bootstrap peers")]
     class BootstrapAddDefaultCommand : CommandBase
     {
         BootstrapAddCommand Parent { get; set; }
@@ -77,8 +77,8 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Remove the bootstrap peer")]
-    [Subcommand("all", typeof(BootstrapRemoveAllCommand))]
+    [Command("rm", Description = "Remove the bootstrap peer")]
+    [Subcommand( typeof(BootstrapRemoveAllCommand))]
     class BootstrapRemoveCommand : CommandBase
     {
         [Argument(0, "addr", "A multiaddress to the peer")]
@@ -94,7 +94,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Remove all the bootstrap peers")]
+    [Command("all", Description = "Remove all the bootstrap peers")]
     class BootstrapRemoveAllCommand : CommandBase
     {
         BootstrapRemoveCommand Parent { get; set; }

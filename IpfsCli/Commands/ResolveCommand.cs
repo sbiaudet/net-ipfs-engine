@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Resolve any type of name")]
+    [Command("resolve", Description = "Resolve any type of name")]
     class ResolveCommand : CommandBase
     {
         [Argument(0, "name", "The IPFS/IPNS/... name")]

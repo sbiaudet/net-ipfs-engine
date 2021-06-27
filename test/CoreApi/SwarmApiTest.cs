@@ -151,7 +151,7 @@ namespace Ipfs.Engine
         IpfsEngine CreateNode()
         {
             const string passphrase = "this is not a secure pass phrase";
-            var ipfs = new IpfsEngine(passphrase.ToCharArray());
+            var ipfs = IpfsEngine.Create(passphrase.ToCharArray());
             ipfs.Options.Repository.Folder = Path.Combine(Path.GetTempPath(), $"swarm-{nodeNumber++}");
             ipfs.Options.KeyChain.DefaultKeySize = 512;
             ipfs.Config.SetAsync(

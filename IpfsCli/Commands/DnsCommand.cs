@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Resolve DNS link")]
+    [Command("dns", Description = "Resolve DNS link")]
     class DnsCommand : CommandBase
     {
         [Argument(0, "domain-name", "The DNS domain name")]

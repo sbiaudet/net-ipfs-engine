@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Manage raw blocks")]
-    [Subcommand("stat", typeof(BlockStatCommand))]
-    [Subcommand("rm", typeof(BlockRemoveCommand))]
-    [Subcommand("get", typeof(BlockGetCommand))]
-    [Subcommand("put", typeof(BlockPutCommand))]
+    [Command("block", Description = "Manage raw blocks")]
+    [Subcommand(typeof(BlockStatCommand))]
+    [Subcommand(typeof(BlockRemoveCommand))]
+    [Subcommand(typeof(BlockGetCommand))]
+    [Subcommand(typeof(BlockPutCommand))]
     class BlockCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -25,7 +25,7 @@ namespace Ipfs.Cli
     }
 
 
-    [Command(Description = "Remove the IPFS block")]
+    [Command("rm", Description = "Remove the IPFS block")]
     class BlockRemoveCommand : CommandBase
     {
         [Argument(0, "cid", "The content ID of the block")]
@@ -49,7 +49,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Information on on the IPFS block")]
+    [Command("stat", Description = "Information on on the IPFS block")]
     class BlockStatCommand : CommandBase
     {
         [Argument(0, "cid", "The content ID of the block")]
@@ -70,7 +70,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Get the IPFS block")]
+    [Command("get", Description = "Get the IPFS block")]
     class BlockGetCommand : CommandBase
     {
         [Argument(0, "cid", "The content ID of the block")]
@@ -90,7 +90,7 @@ namespace Ipfs.Cli
 
     }
 
-    [Command(Description = "Put the IPFS block")]
+    [Command("put", Description = "Put the IPFS block")]
     class BlockPutCommand : CommandBase
     {
         [Argument(0, "path", "The file containing the data")]

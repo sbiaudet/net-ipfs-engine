@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Manage swapped blocks")]
-    [Subcommand("wantlist", typeof(BitswapWantListCommand))]
-    [Subcommand("unwant", typeof(BitswapUnwantCommand))]
-    [Subcommand("ledger", typeof(BitswapLedgerCommand))]
-    [Subcommand("stat", typeof(BitswapStatCommand))]
+    [Command("bitswap", Description = "Manage swapped blocks")]
+    [Subcommand(typeof(BitswapWantListCommand))]
+    [Subcommand(typeof(BitswapUnwantCommand))]
+    [Subcommand(typeof(BitswapLedgerCommand))]
+    [Subcommand(typeof(BitswapStatCommand))]
     class BitswapCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -23,7 +23,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Show blocks currently on the wantlist")]
+    [Command("wantlist", Description = "Show blocks currently on the wantlist")]
     class BitswapWantListCommand : CommandBase
     {
         [Option("-p|--peer", Description = "Peer to show wantlist for. Default: self.")]
@@ -48,7 +48,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Remove a block from the wantlist")]
+    [Command("unwant", Description = "Remove a block from the wantlist")]
     class BitswapUnwantCommand : CommandBase
     {
         [Argument(0, "cid", "The content ID of the block")]
@@ -65,7 +65,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Show the current ledger for a peer")]
+    [Command("ledger", Description = "Show the current ledger for a peer")]
     class BitswapLedgerCommand : CommandBase
     {
         [Argument(0, "peerid", "The PeerID (B58) of the ledger to inspect")]
@@ -83,7 +83,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Show bitswap information")]
+    [Command("stat", Description = "Show bitswap information")]
     class BitswapStatCommand : CommandBase
     {
         BitswapCommand Parent { get; set; }

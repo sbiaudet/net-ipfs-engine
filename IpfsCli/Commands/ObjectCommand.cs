@@ -9,11 +9,11 @@ using System.IO;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Manage IPFS objects")]
-    [Subcommand("links", typeof(ObjectLinksCommand))]
-    [Subcommand("get", typeof(ObjectGetCommand))]
-    [Subcommand("dump", typeof(ObjectDumpCommand))]
-    [Subcommand("stat", typeof(ObjectStatCommand))]
+    [Command("object", Description = "Manage IPFS objects")]
+    [Subcommand(typeof(ObjectLinksCommand))]
+    [Subcommand(typeof(ObjectGetCommand))]
+    [Subcommand(typeof(ObjectDumpCommand))]
+    [Subcommand(typeof(ObjectStatCommand))]
     class ObjectCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -25,7 +25,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Information on the links pointed to by the IPFS block")]
+    [Command("links", Description = "Information on the links pointed to by the IPFS block")]
     class ObjectLinksCommand : CommandBase
     {
         [Argument(0, "cid", "The content ID of the object")]
@@ -49,7 +49,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Serialise the DAG node")]
+    [Command("get", Description = "Serialise the DAG node")]
     class ObjectGetCommand : CommandBase
     {
         [Argument(0, "cid", "The content ID of the object")]
@@ -67,7 +67,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Dump the DAG node")]
+    [Command("dump", Description = "Dump the DAG node")]
     class ObjectDumpCommand : CommandBase
     {
         [Argument(0, "cid", "The content ID of the object")]
@@ -94,7 +94,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Stats for the DAG node")]
+    [Command("stat", Description = "Stats for the DAG node")]
     class ObjectStatCommand : CommandBase
     {
         [Argument(0, "cid", "The content ID of the object")]

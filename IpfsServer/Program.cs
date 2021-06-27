@@ -32,7 +32,7 @@ namespace Ipfs.Server
         {
             try
             {
-                IpfsEngine = new IpfsEngine(passphrase.ToCharArray());
+                IpfsEngine = IpfsEngine.Create(passphrase.ToCharArray());
                 IpfsEngine.StartAsync().Wait();
 
                 BuildWebHost(args)

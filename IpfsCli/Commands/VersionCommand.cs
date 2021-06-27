@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Show version information")]
+    [Command("version", Description = "Show version information")]
     class VersionCommand : CommandBase
     {
         public Program Parent { get; set; }

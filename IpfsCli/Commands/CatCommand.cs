@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Show IPFS file data")]
+    [Command("cat", Description = "Show IPFS file data")]
     class CatCommand : CommandBase
     {
         [Argument(0, "ref", "The IPFS path to the data")]

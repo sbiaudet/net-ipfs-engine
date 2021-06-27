@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Query IPFS statistics")]
-    [Subcommand("bw", typeof(StatsBandwidthCommand))]
-    [Subcommand("repo", typeof(StatsRepoCommand))]
-    [Subcommand("bitswap", typeof(StatsBitswapCommand))]
+    [Command("stats", Description = "Query IPFS statistics")]
+    [Subcommand(typeof(StatsBandwidthCommand))]
+    [Subcommand(typeof(StatsRepoCommand))]
+    [Subcommand(typeof(StatsBitswapCommand))]
     class StatsCommand : CommandBase
     {
         public Program Parent { get; set; }
@@ -23,7 +23,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "IPFS bandwidth information")]
+    [Command("bw", Description = "IPFS bandwidth information")]
     class StatsBandwidthCommand : CommandBase
     {
         StatsCommand Parent { get; set; }
@@ -37,7 +37,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Repository information")]
+    [Command("repo", Description = "Repository information")]
     class StatsRepoCommand : CommandBase
     {
         StatsCommand Parent { get; set; }
@@ -51,7 +51,7 @@ namespace Ipfs.Cli
         }
     }
 
-    [Command(Description = "Bitswap information")]
+    [Command("bitswap", Description = "Bitswap information")]
     class StatsBitswapCommand : CommandBase
     {
         StatsCommand Parent { get; set; }

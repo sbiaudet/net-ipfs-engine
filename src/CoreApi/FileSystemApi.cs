@@ -289,7 +289,7 @@ namespace Ipfs.Engine.CoreApi
         {
             var cid = await ipfs.ResolveIpfsPathToCidAsync(path, cancel).ConfigureAwait(false);
             var ms = new MemoryStream();
-            using (var tarStream = new TarOutputStream(ms, 1))
+            using (var tarStream = new TarOutputStream(ms, 1, Encoding.Unicode))
             using (var archive = TarArchive.CreateOutputTarArchive(tarStream))
             {
                 archive.IsStreamOwner = false;

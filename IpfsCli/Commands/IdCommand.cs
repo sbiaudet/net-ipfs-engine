@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ipfs.Cli
 {
-    [Command(Description = "Show info on an IPFS peer")]
+    [Command("id", Description = "Show info on an IPFS peer")]
     class IdCommand : CommandBase
     {
         [Argument(0, "peerid", "The IPFS peer ID")]
